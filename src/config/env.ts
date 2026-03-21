@@ -40,3 +40,5 @@ export const REFRESH_TOKEN_EXPIRY =
 export const NODE_ENV: string = requireEnv("NODE_ENV");
 
 export const CLIENT_URI: string = requireEnv("CLIENT_URI");
+
+export const RESEND_API_KEY: string = requireEnv("RESEND_API_KEY");

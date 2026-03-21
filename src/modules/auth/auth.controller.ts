@@ -57,10 +57,10 @@ const generateVerificationCode = async(userId: Types.ObjectId) => {
             new Date(Date.now() + 5 * 60 * 1000);
 
         await user.save({ validateBeforeSave: false });
-        await sendVerificationEmail(user.fullname, genCode, user.email);
-        return genCode;
+        sendVerificationEmail(user.fullname, genCode, user.email);
     } catch(error) {
-        throw new ApiError(500, "Failed to generate verififcation code");
+        console.log(error);
+        throw error;
     }
 };
 
@@ -80,7 +80,7 @@ export const signup = asyncHandler(async(req, res) => {
     const { accessToken, refreshToken } = 
         await generateAccessAndRefreshToken(user._id);
 
-    const code = await generateVerificationCode(user._id);
+    generateVerificationCode(user._id);
 
     res.status(201)
         .cookie("accessToken", accessToken, cookieOptions)
@@ -134,7 +134,7 @@ export const signout = asyncHandler(async(req, res) => {
     }
 
     await User.findByIdAndUpdate(userId, {
-        $unset: { refereshToken: "" }
+        $unset: { refreshToken: "" }
     }, {
         returnDocument: "after"
     });
