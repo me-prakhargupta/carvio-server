@@ -1,5 +1,5 @@
 import express from "express";
-import routes  from "../src/routes/index.js";
+import routes from "./routes/index.js";
 import cookieParser from "cookie-parser";
 import cors, {CorsOptions} from "cors";
 import { CLIENT_URI } from "./config/env.js";
