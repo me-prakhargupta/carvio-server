@@ -22,11 +22,6 @@ export const PORT: number = portNumber;
 
 export const MONGO_URI: string = requireEnv("MONGO_URI");
 
-export const SYSTEM_EMAIL: string = 
-    requireEnv("SYSTEM_EMAIL");
-export const SYSTEM_EMAIL_PASS: string = 
-    requireEnv("SYSTEM_EMAIL_PASS");
-
 export const ACCESS_TOKEN_SECRET = 
     requireEnv("ACCESS_TOKEN_SECRET");
 export const ACCESS_TOKEN_EXPIRY =
