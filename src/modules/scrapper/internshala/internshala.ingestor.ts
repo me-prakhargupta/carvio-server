@@ -54,5 +54,5 @@ export const ingestInternshalaJobs = async() => {
         }
         count++;
     }
-    console.log(`[SCRAPER] Runned for ${count} domains`);
+    console.log(`[SCRAPER: INTERNSHALA] Runned for ${count} domains`);
 };

@@ -1,5 +1,3 @@
-import { TMatch } from "../../modules/matching/matching.services.js";
-
 export type TJobs =  {
     title: string;
     company: string;
@@ -136,9 +134,9 @@ export const generateJobsEmailHtml = (matches: TJobs[]) => {
 
                 <!-- Meta Info -->
                 <div style="font-size:13px; color:#666; line-height:1.6;">
-                    🕊️ ${match.location} <br/>
-                    🫰 ${match.stipend || "Not disclosed"} <br/>
-                    🌿 ${match.postedAt || "Recently posted"}
+                    🕊️ Company: ${match.location} <br/>
+                    🫰 Stipend: ${match.stipend || "Not disclosed"} <br/>
+                    🌿 Posted: ${match.postedAt || "Recently"}
                 </div>
 
                 <!-- CTA -->

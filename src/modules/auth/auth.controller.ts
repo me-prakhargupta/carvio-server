@@ -59,7 +59,6 @@ const generateVerificationCode = async(userId: Types.ObjectId) => {
         await user.save({ validateBeforeSave: false });
         sendVerificationEmail(user.fullname, genCode, user.email);
     } catch(error) {
-        console.log(error);
         throw error;
     }
 };

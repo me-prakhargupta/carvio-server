@@ -1,10 +1,17 @@
-export const transformGreenhouseJobs = (job: any, company: string) => ({
+import { JobType } from "../../jobs/jobs.validation.js";
+
+export const transformGreenhouseJobs = (
+    job: JobType, 
+    company: string
+) => ({
     title: job.title,
     company,
-    location: job.location?.name || "Unknown",
+    location: typeof job.location === "object" && 
+        job.location !== null ? (job.location as any).name : 
+        job.location,
     skillsRequired: [],
     source: "Greenhouse",
     externalId: job.id,
     absoluteUrl: job.absolute_url,
-    postedAt: new Date(job.updated_at)
+    postedAt: job.updated_at,
 });

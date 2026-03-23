@@ -51,7 +51,9 @@ export const fetchInternshalaJobs = async(domain: string) => {
 
         return jobs;
     } catch(error) {
-        console.log("[SCRAPER] Failed to fetch jobs");
+        console.log(
+            "[SCRAPER: FETCH INTERNSHALA] Failed to fetch jobs"
+        );
         return [];
     }
 };
