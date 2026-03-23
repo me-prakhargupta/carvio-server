@@ -1,21 +1,22 @@
 // import { Resend } from "resend";
 // import { RESEND_API_KEY } from "../../config/env.js";
 
-import nodeMailer from "nodemailer";
+import nodemailer from "nodemailer";
 import { 
     SYSTEM_USER_EMAIL, 
     SYSTEM_USER_PASS 
 } from "../../config/env.js";
 
-const transpoter = nodeMailer.createTransport({
+const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
+    family: 4,
     auth: {
         user: SYSTEM_USER_EMAIL,
         pass: SYSTEM_USER_PASS
     }
-});
+} as nodemailer.TransportOptions);
 
 
 export const sendEmail = async(
@@ -24,7 +25,7 @@ export const sendEmail = async(
     html: string
 ) => {
     try {
-        await transpoter.sendMail({
+        await transporter.sendMail({
             from: `Carvio <${SYSTEM_USER_EMAIL}>`,
             to: email,
             subject,
