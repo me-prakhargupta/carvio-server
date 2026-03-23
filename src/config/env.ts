@@ -37,3 +37,6 @@ export const NODE_ENV: string = requireEnv("NODE_ENV");
 export const CLIENT_URI: string = requireEnv("CLIENT_URI");
 
 export const RESEND_API_KEY: string = requireEnv("RESEND_API_KEY");
+
+export const SYSTEM_USER_EMAIL: string = requireEnv("SYSTEM_USER_EMAIL");
+export const SYSTEM_USER_PASS: string = requireEnv("SYSTEM_USER_PASS");

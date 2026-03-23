@@ -3,6 +3,7 @@ import Preference from "./preferences.model.js";
 import { asyncHandler } from "../../shared/utills/asyncHandler.js";
 import { ApiError } from "../../shared/utills/ApiError.js";
 import { ApiResponse } from "../../shared/utills/ApiResponse.js";
+import { normalizeSkills } from "../../shared/utills/normalizeSkills.js";
 
 export const setPreferences = asyncHandler(async(req, res) => {
     const { skills, roles, minStipend, location } = req.body;
@@ -16,9 +17,10 @@ export const setPreferences = asyncHandler(async(req, res) => {
         );
     }
 
+    const normalizedkills = normalizeSkills(skills);
     await Preference.create({ 
         userId, 
-        skills, 
+        skills: normalizedkills, 
         roles, 
         minStipend, 
         location 

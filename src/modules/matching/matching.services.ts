@@ -67,7 +67,7 @@ export const matchJobsForUser = async(
                 stipend: ensureString(r.job.stipend),
                 postedAt: ensureString(r.job.postedAt),
                 absoluteUrl: ensureString(r.job.absoluteUrl),
-          }));
+        }));
 
     } catch (error) {
         console.error("Matching error:", error);
