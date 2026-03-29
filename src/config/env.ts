@@ -40,3 +40,5 @@ export const RESEND_API_KEY: string = requireEnv("RESEND_API_KEY");
 
 export const SYSTEM_USER_EMAIL: string = requireEnv("SYSTEM_USER_EMAIL");
 export const SYSTEM_USER_PASS: string = requireEnv("SYSTEM_USER_PASS");
+
+export const BREVO_API_KEY: string = requireEnv("BREVO_API_KEY");
