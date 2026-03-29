@@ -9,8 +9,8 @@ import {
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     family: 4,
     auth: {
         user: SYSTEM_USER_EMAIL,
@@ -25,12 +25,14 @@ export const sendEmail = async(
     html: string
 ) => {
     try {
-        await transporter.sendMail({
+        const response = await transporter.sendMail({
             from: `Carvio <${SYSTEM_USER_EMAIL}>`,
             to: email,
             subject,
             html
         });
+
+        console.log("Email Respose", response);
     } catch(error) {
         throw error;
     }

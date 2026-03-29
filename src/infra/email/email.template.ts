@@ -134,7 +134,7 @@ export const generateJobsEmailHtml = (matches: TJobs[]) => {
 
                 <!-- Meta Info -->
                 <div style="font-size:13px; color:#666; line-height:1.6;">
-                    🕊️ Company: ${match.location} <br/>
+                    🕊️ Location: ${match.location} <br/>
                     🫰 Stipend: ${match.stipend || "Not disclosed"} <br/>
                     🌿 Posted: ${match.postedAt || "Recently"}
                 </div>

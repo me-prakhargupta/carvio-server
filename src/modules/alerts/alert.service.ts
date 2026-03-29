@@ -41,6 +41,7 @@ export const runMatchingPipeline = async() => {
 
             if(emailPayload.length > 0) {
                 sendPreferenceEmail(user.email, emailPayload);
+                console.log("Email Sent");
                 return;
             }
         }
