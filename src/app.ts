@@ -3,6 +3,7 @@ import routes from "./routes/index.js";
 import cookieParser from "cookie-parser";
 import cors, {CorsOptions} from "cors";
 import { CLIENT_URI } from "./config/env.js";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
@@ -15,7 +16,12 @@ const corsOptions: CorsOptions = {
 
 app.use(cors(corsOptions));
 
-app.set("trust proxy", true);
+app.set("trust proxy", 1);
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 

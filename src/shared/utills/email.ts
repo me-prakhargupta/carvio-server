@@ -34,7 +34,7 @@ export const sendEmail = async(
             }
         );
 
-        console.log("Email sent:", response.data);
+        // console.log("Email sent:", response.data);
     } catch(error) {
         console.log(
             "Brevo error:", error);
