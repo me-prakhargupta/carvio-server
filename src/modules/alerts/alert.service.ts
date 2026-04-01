@@ -9,7 +9,7 @@ export const runMatchingPipeline = async() => {
         const users = await User.find({
             isVerified: true
         });
-
+        let emailSentCount = 0;
         for(const user of users) {
             const matches = await matchJobsForUser(user._id);
             let emailPayload: TJobs[] = [];
@@ -32,7 +32,6 @@ export const runMatchingPipeline = async() => {
 
                 } catch(error: any) {
                     if (error.code === 11000) {
-                        // already sent → skip
                         continue;   
                     }
                     throw error;
@@ -41,10 +40,12 @@ export const runMatchingPipeline = async() => {
 
             if(emailPayload.length > 0) {
                 sendPreferenceEmail(user.email, emailPayload);
-                console.log("Email Sent");
+                emailSentCount++;
                 return;
             }
         }
+
+        console.log(`[EMAIL] Sent ${emailSentCount} emails`)
     } catch(error) {
         console.log("[PIPELINE] Matching Failed")
     }

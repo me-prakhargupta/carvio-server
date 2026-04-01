@@ -10,4 +10,12 @@ export const domains = [
     "node-js-development-internship",
     "software-development-internship",
     "web-development-internship",
+    "ai-agent-development-internship",
+    "analytics-internship",
+    "artificial-intelligence-ai-internship",
+    "big-data-internship",
+    "data-science-internship",
+    "machine-learning-internship",
+    "python-django-internship",
+    "database-building-internship"
 ];

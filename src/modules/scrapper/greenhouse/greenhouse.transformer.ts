@@ -9,7 +9,7 @@ export const transformGreenhouseJobs = (
     location: typeof job.location === "object" && 
         job.location !== null ? (job.location as any).name : 
         job.location,
-    skillsRequired: [],
+    skills: [],
     source: "Greenhouse",
     externalId: job.id,
     absoluteUrl: job.absolute_url,

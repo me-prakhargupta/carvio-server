@@ -5,7 +5,8 @@ import { fetchGreenhouseJobs } from "./greenhouse.fetcher.js";
 import { 
     isRecentJob, 
     isIndian,
-    isRelevantJob 
+    isRelevantJob,
+    timeAgo
 } from "../../jobs/jobs.filters.js";
 import { transformGreenhouseJobs } from "./greenhouse.transformer.js";
 import { createJob } from "../../jobs/jobs.repository.js";
@@ -23,7 +24,11 @@ export const ingestGreenhouseJobs = async() => {
                 if(!isIndian(transformed.location)) continue;
                 if(!isRelevantJob(transformed.title as string)) continue;
 
-                await createJob(transformed);
+                const daysAgo = timeAgo(transformed.postedAt as string);
+                await createJob({
+                    ...transformed,
+                    postedAt: daysAgo
+                });
             } catch(error) {
                 console.error(
                     `[SCRAPER: GREENHOUSE] Job failed for ${company}`
