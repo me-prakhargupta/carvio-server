@@ -38,5 +38,5 @@ export const ingestUnstopJobs = async() => {
         }
     }
 
-    console.log(`[SCRAPER: UNSTOP] runned for ${rolesCount} roles.`);
+    console.log(`[SCRAPER: UNSTOP] Runned for ${rolesCount} roles`);
 };

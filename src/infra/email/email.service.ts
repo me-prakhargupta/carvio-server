@@ -5,19 +5,27 @@ import {
 import { sendEmail } from "../../shared/utills/email.js";
 import { TJobs } from "./email.template.js";
 
-export const sendVerificationEmail = (
+export const sendVerificationEmail = async(
     name: string, 
     code: string, 
     email: string
 ) => {
     const html = generateVerificationCodeHtml(name, code);
-    sendEmail(email, "Verify your email for Carvio", html);
+    return await sendEmail(
+        email, 
+        "Verify your email for Carvio", 
+        html
+    );
 };
 
-export const sendPreferenceEmail = (
+export const sendPreferenceEmail = async(
     email: string, 
     matches: TJobs[]
 ) => {    
     const html = generateJobsEmailHtml(matches);
-    sendEmail(email, "Friendly Reminder, Carvio", html);
+    return await sendEmail(
+        email, 
+        "Friendly Reminder, Carvio", 
+        html
+    );
 };

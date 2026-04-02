@@ -37,5 +37,5 @@ export const ingestGreenhouseJobs = async() => {
         }
         companyCount++;
     }
-    console.log(`[SCRAPER: GREENHOUSE]  for ${companyCount} companies`);
+    console.log(`[SCRAPER: GREENHOUSE] Runned for ${companyCount} companies`);
 };

@@ -16,7 +16,7 @@ export const sendEmail = async(
     html: string
 ) => {
     try {
-        const response = await axios.post(
+        return await axios.post(
             "https://api.brevo.com/v3/smtp/email",
             {
                 sender: {
@@ -33,8 +33,6 @@ export const sendEmail = async(
                 }
             }
         );
-
-        // console.log("Email sent:", response.data);
     } catch(error) {
         console.log(
             "Brevo error:", error);
@@ -59,14 +57,14 @@ export const sendEmail = async(
 //     html: string
 // ) => {
 //     try {
-//         const response = await transporter.sendMail({
+//         await transporter.sendMail({
 //             from: `Carvio <${SYSTEM_USER_EMAIL}>`,
 //             to: email,
 //             subject,
 //             html
 //         });
 
-//         console.log("Email Respose", response);
+//         return { success: true };
 //     } catch(error) {
 //         throw error;
 //     }

@@ -25,9 +25,7 @@ export const matchJobsForUser = async(
         const prefs = await Preference.findOne({ userId });
         if (!prefs) return [];
 
-        const jobs = await Job.find({
-            skills: { $in: prefs.skills },
-        }).limit(50);
+        const jobs = await Job.find({}).limit(200);
 
         const prefSkillsSet = new Set(prefs.skills);
 

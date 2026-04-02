@@ -1,4 +1,4 @@
-import { domains } from "../../sources/internshala/sources.config.js";
+import { domains } from "../../sources/internshala/internshala.sources.js";
 import { fetchInternshalaJobs } from "./internshala.fetcher.js";
 import { createJob } from "../../jobs/jobs.repository.js";
 import { jobSchema } from "../../jobs/jobs.validation.js";

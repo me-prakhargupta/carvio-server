@@ -3,5 +3,14 @@ export const roles = [
     "backend-development",
     "web-development",
     "full-stack-development",
-    "software-development"
+    "software-development",
+    "security-engineering",
+    "api-development",
+    "data-analysis",
+    "data-engineering",
+    "data-science",
+    "database-administration",
+    "devops",
+    "machine-learning-engineering",
+    "mobile-app-development",
 ];

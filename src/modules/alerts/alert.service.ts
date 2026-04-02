@@ -6,12 +6,14 @@ import { TJobs } from "../../infra/email/email.template.js";
 
 export const runMatchingPipeline = async() => {
     try {
-        const users = await User.find({
-            isVerified: true
-        });
+        const users = await User.find({ isVerified: true });
+
         let emailSentCount = 0;
+
         for(const user of users) {
             const matches = await matchJobsForUser(user._id);
+            if (!matches.length) continue;
+
             let emailPayload: TJobs[] = [];
 
             for(const match of matches) {
@@ -31,22 +33,19 @@ export const runMatchingPipeline = async() => {
                     });
 
                 } catch(error: any) {
-                    if (error.code === 11000) {
-                        continue;   
-                    }
+                    if (error.code === 11000) continue;   
                     throw error;
                 }
             }
 
             if(emailPayload.length > 0) {
-                sendPreferenceEmail(user.email, emailPayload);
+                await sendPreferenceEmail(user.email, emailPayload);
                 emailSentCount++;
-                return;
             }
         }
 
-        console.log(`[EMAIL] Sent ${emailSentCount} emails`)
+        console.log(`[EMAIL] Sent ${emailSentCount} emails`);
     } catch(error) {
-        console.log("[PIPELINE] Matching Failed")
+        console.error("[PIPELINE] Matching Failed:", error);
     }
 };
