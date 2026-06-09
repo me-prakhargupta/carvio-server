@@ -5,6 +5,10 @@ export const jobSchema = z.object({
     .string()
     .trim(),
 
+  logo: z
+    .string()
+    .trim(),
+
   company: z
     .string()
     .trim(),

@@ -5,6 +5,7 @@ import Job from "../jobs/jobs.model.js";
 export type TMatch = {
   jobId: Types.ObjectId;
   title: string;
+  logo: string;
   company: string;
   location: string;
   stipend: string;
@@ -60,6 +61,7 @@ export const matchJobsForUser = async(
             .map((r): TMatch => ({
                 jobId: r.job._id as Types.ObjectId,
                 title: ensureString(r.job.title),
+                logo: ensureString(r.job.logo),
                 company: ensureString(r.job.company),
                 location: ensureString(r.job.location),
                 stipend: ensureString(r.job.stipend),

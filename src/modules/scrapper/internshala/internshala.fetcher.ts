@@ -24,6 +24,7 @@ export const fetchInternshalaJobs = async(domain: string) => {
         const jobs: JobType[]  = [];
         $(".individual_internship").each((i, el) => {
             const title = $(el).find(".job-internship-name a").text().trim();
+            const logo = $(el).find(".internship_logo img").attr("src") || "";
             const company = $(el).find(".company-name").text().trim();
             const location = $(el).find(".locations a").text().trim();
             const skills = $(el)
@@ -37,6 +38,7 @@ export const fetchInternshalaJobs = async(domain: string) => {
 
             const job = {
                 title,
+                logo,
                 company,
                 location,
                 skills,

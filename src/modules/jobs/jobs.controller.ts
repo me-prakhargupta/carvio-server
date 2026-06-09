@@ -28,6 +28,7 @@ const getMatchedJobs = asyncHandler(async (req, res) => {
 
     const payload = matches.map(match => ({
         title: match.title,
+        logo: match.logo,
         company: match.company,
         location: match.location,
         stipend: match.stipend,
@@ -48,6 +49,7 @@ const getJobs = asyncHandler(async (req, res) => {
     const jobs = await Job.find();
     const payload = jobs.map(match => ({
         title: match.title,
+        logo: match.logo,
         company: match.company,
         location: match.location,
         stipend: match.stipend,

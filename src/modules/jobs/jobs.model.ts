@@ -7,6 +7,10 @@ const jobSchema = new Schema<JobType>({
         required: true,
         trim: true,
     },
+    logo: {
+        type: String,
+        trim: true,
+    },
     company: {
         type: String,
         required: true,
