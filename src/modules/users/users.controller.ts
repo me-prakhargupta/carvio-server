@@ -47,9 +47,9 @@ const getMatchedJobs = asyncHandler(async (req, res) => {
 });
 
 const getJobs = asyncHandler(async (req, res) => {
-    const jobs = await Job.find();
+    const jobs = await Job.find().lean();
     const payload = jobs.map(match => ({
-        _id: match.jobId,
+        _id: match._id,
         title: match.title,
         logo: match.logo,
         company: match.company,
@@ -59,6 +59,7 @@ const getJobs = asyncHandler(async (req, res) => {
         absoluteUrl: match.absoluteUrl
     }));
 
+    console.log(payload);
     return res.status(200).json(
         new ApiResponse(
             200,
