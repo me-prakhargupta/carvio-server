@@ -1,6 +1,14 @@
 import { generateRateLimiter } from "../shared/utills/rateLimiter.js";
 import { rateLimitConfig } from "../config/rateLimitConfig.js";
 
-export const emailVerificationLimiter = generateRateLimiter(
+const signupLimiter = generateRateLimiter(rateLimitConfig.signup);
+const signinLimter = generateRateLimiter(rateLimitConfig.signin);
+const emailVerificationLimiter = generateRateLimiter(
     rateLimitConfig.emailVerification
 );
+
+export {
+    signupLimiter,
+    signinLimter,
+    emailVerificationLimiter
+}

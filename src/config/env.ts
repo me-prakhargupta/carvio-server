@@ -18,27 +18,53 @@ if(Number.isNaN(portNumber)) {
     throw new Error("PORT number must be a valid number");
 }
 
-export const PORT: number = portNumber;
+const PORT: number = portNumber;
 
-export const MONGO_URI: string = requireEnv("MONGO_URI");
+const MONGO_URI: string = requireEnv("MONGO_URI");
 
-export const ACCESS_TOKEN_SECRET = 
+const rawSaltRound = requireEnv("SALT_ROUND");
+const saltRound = Number(rawSaltRound);
+
+if(Number.isNaN(saltRound)) {
+    throw new Error("SALT ROUND must be a valid number");
+}
+
+const SALT_ROUND: number = saltRound;
+
+
+const ACCESS_TOKEN_SECRET = 
     requireEnv("ACCESS_TOKEN_SECRET");
-export const ACCESS_TOKEN_EXPIRY =
+const ACCESS_TOKEN_EXPIRY =
   requireEnv("ACCESS_TOKEN_EXPIRY") as `${number}${"s" | "m" | "h" | "d"}`;
 
-export const REFRESH_TOKEN_SECRET = 
+const REFRESH_TOKEN_SECRET = 
     requireEnv("REFRESH_TOKEN_SECRET");
-export const REFRESH_TOKEN_EXPIRY =
+const REFRESH_TOKEN_EXPIRY =
   requireEnv("REFRESH_TOKEN_EXPIRY") as `${number}${"s" | "m" | "h" | "d"}`;
 
-export const NODE_ENV: string = requireEnv("NODE_ENV");
+const NODE_ENV: string = requireEnv("NODE_ENV");
 
-export const CLIENT_URI: string = requireEnv("CLIENT_URI");
+const CLIENT_URI: string = requireEnv("CLIENT_URI");
 
-export const RESEND_API_KEY: string = requireEnv("RESEND_API_KEY");
+const RESEND_API_KEY: string = requireEnv("RESEND_API_KEY");
+const BREVO_API_KEY: string = requireEnv("BREVO_API_KEY");
 
-export const SYSTEM_USER_EMAIL: string = requireEnv("SYSTEM_USER_EMAIL");
-export const SYSTEM_USER_PASS: string = requireEnv("SYSTEM_USER_PASS");
+const SYSTEM_USER_EMAIL: string = requireEnv("SYSTEM_USER_EMAIL");
+const SYSTEM_USER_PASS: string = requireEnv("SYSTEM_USER_PASS");
 
-export const BREVO_API_KEY: string = requireEnv("BREVO_API_KEY");
+
+export {
+    PORT,
+    MONGO_URI,
+    SALT_ROUND,
+    ACCESS_TOKEN_SECRET,
+    ACCESS_TOKEN_EXPIRY,
+    REFRESH_TOKEN_SECRET,
+    REFRESH_TOKEN_EXPIRY,
+    NODE_ENV,
+    CLIENT_URI,
+    RESEND_API_KEY,
+    BREVO_API_KEY,
+    SYSTEM_USER_EMAIL,
+    SYSTEM_USER_PASS,
+};

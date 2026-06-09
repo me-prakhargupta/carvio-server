@@ -1,4 +1,6 @@
 import { Document, Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
+import { SALT_ROUND } from "../../config/env.js";
 import jwt from "jsonwebtoken";
 import { 
     ACCESS_TOKEN_SECRET,
@@ -10,11 +12,13 @@ import {
 interface IUser extends Document {
     fullname: string;
     email: string;
+    password: string;
     verificationCode?: string;
     verificationCodeExpiry?: Date;
     isVerified: boolean;
     refreshToken: string;
 
+    comparePassword(password: string): Promise<boolean>;
     generateAccessToken(): string;
     generateRefreshToken(): string;
 };
@@ -29,6 +33,12 @@ const userSchema = new Schema<IUser>({
         type: String,
         required: true,
         trim: true,
+    },
+    password: {
+        type: String,
+        required: true,
+        minlength: [7, "Password must be at least 7 characters long"],
+        maxlength: [21, "Password must be at most 21 characters long"],
     },
     verificationCode: {
         type: String,
@@ -47,6 +57,20 @@ const userSchema = new Schema<IUser>({
 }, {
     timestamps: true,
 });
+
+userSchema.pre("save", async function() {
+    try {
+        if(!this.isModified("password")) return;
+
+        this.password = await bcrypt.hash(this.password, SALT_ROUND);
+    } catch(error) {
+        console.log("Error while saving password: ", error);
+    }
+});
+
+userSchema.methods.comparePassword = async function(password: string) {
+    return await bcrypt.compare(password, this.password);
+};
 
 userSchema.methods.generateAccessToken = function(this: IUser) {
     return jwt.sign({

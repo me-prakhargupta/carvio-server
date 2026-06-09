@@ -42,44 +42,44 @@ const generateAccessAndRefreshToken =
     }
 };
 
-const generateVerificationCode = async(userId: Types.ObjectId) => {
-    try {
-        const user = await User.findById(userId);
-        if(!user) {
-            throw new ApiError(401, "User does not exist.");
-        }
+// const generateVerificationCode = async(userId: Types.ObjectId) => {
+//     try {
+//         const user = await User.findById(userId);
+//         if(!user) {
+//             throw new ApiError(401, "User does not exist.");
+//         }
 
-        const genCode = generateCode();
-        const hashedCode = hashCode(genCode);
+//         const genCode = generateCode();
+//         const hashedCode = hashCode(genCode);
 
-        user.verificationCode = hashedCode;
-        user.verificationCodeExpiry = 
-            new Date(Date.now() + 5 * 60 * 1000);
+//         user.verificationCode = hashedCode;
+//         user.verificationCodeExpiry = 
+//             new Date(Date.now() + 5 * 60 * 1000);
 
-        await user.save({ validateBeforeSave: false });
-        sendVerificationEmail(user.fullname, genCode, user.email);
-    } catch(error) {
-        throw error;
-    }
-};
+//         await user.save({ validateBeforeSave: false });
+//         sendVerificationEmail(user.fullname, genCode, user.email);
+//     } catch(error) {
+//         throw error;
+//     }
+// };
 
 export const signup = asyncHandler(async(req, res) => {
-    const { fullname, email } = req.body;
+    const { fullname, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
 
     if(existingUser) {
         throw new ApiError(409, 
-            "An account with this email or username already exists."
+            "An account with this email already exists."
         );
     }
     
-    const user = await User.create({ fullname, email });
+    const user = await User.create({ fullname, email, password });
 
     const { accessToken, refreshToken } = 
         await generateAccessAndRefreshToken(user._id);
 
-    generateVerificationCode(user._id);
+    // generateVerificationCode(user._id);
 
     res.status(201)
         .cookie("accessToken", accessToken, cookieOptions)
@@ -89,57 +89,81 @@ export const signup = asyncHandler(async(req, res) => {
         );
 });
 
-export const verifyEmail = asyncHandler(async(req, res) => {
-    const { code } = req.body;
+export const signin = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
 
-    const userId = req.user?._id;
-
-    const user = await User.findById(userId);
-
+    const user = await User.findOne({ email });
     if(!user) {
-        throw new ApiError(401, "User not found");
+        throw new ApiError(401, "Invalid email or password.");
     }
 
-    
-    if(!user.verificationCode || !user.verificationCodeExpiry) {
-        throw new ApiError(400, "No verification request found");
-    }
-    
-    if(user.verificationCodeExpiry < new Date()) {
-        throw new ApiError(401, "Code expired");
+    const isMatched = await user.comparePassword(password);
+    if(!isMatched) {
+        throw new ApiError(401, "Invalid email or password.");
     }
 
-    const hashedInput = hashCode(code);
-
-    if(hashedInput !== user.verificationCode) {
-        throw new ApiError(401, "Invalid code, try again.");
-    }
-
-    user.isVerified = true;
-    user.verificationCode = undefined;
-    user.verificationCodeExpiry = undefined;
-
-    await user.save();
+    const { accessToken, refreshToken } = 
+        await generateAccessAndRefreshToken(user._id);
 
     res.status(200)
-        .json(new ApiResponse(200, "Email verified successfully"));
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
+        .json(
+            new ApiResponse( 200, "Signed in successfully")
+        );
 });
 
-export const signout = asyncHandler(async(req, res) => {
-    const userId = req.user?._id;
+// export const signout = asyncHandler(async(req, res) => {
+//     const userId = req.user?._id;
 
-    if(!userId) {
-        throw new ApiError(401, "User not found");
-    }
+//     if(!userId) {
+//         throw new ApiError(401, "User not found");
+//     }
 
-    await User.findByIdAndUpdate(userId, {
-        $unset: { refreshToken: "" }
-    }, {
-        returnDocument: "after"
-    });
+//     await User.findByIdAndUpdate(userId, {
+//         $unset: { refreshToken: "" }
+//     }, {
+//         returnDocument: "after"
+//     });
 
-    res.status(200)
-        .clearCookie("accessToken", cookieOptions)
-        .clearCookie("refreshToken", cookieOptions)
-        .json(new ApiResponse(200, "User logout successfully"));
-});
+//     res.status(200)
+//         .clearCookie("accessToken", cookieOptions)
+//         .clearCookie("refreshToken", cookieOptions)
+//         .json(new ApiResponse(200, "User logout successfully"));
+// });
+
+// export const verifyEmail = asyncHandler(async(req, res) => {
+//     const { code } = req.body;
+
+//     const userId = req.user?._id;
+
+//     const user = await User.findById(userId);
+
+//     if(!user) {
+//         throw new ApiError(401, "User not found");
+//     }
+
+    
+//     if(!user.verificationCode || !user.verificationCodeExpiry) {
+//         throw new ApiError(400, "No verification request found");
+//     }
+    
+//     if(user.verificationCodeExpiry < new Date()) {
+//         throw new ApiError(401, "Code expired");
+//     }
+
+//     const hashedInput = hashCode(code);
+
+//     if(hashedInput !== user.verificationCode) {
+//         throw new ApiError(401, "Invalid code, try again.");
+//     }
+
+//     user.isVerified = true;
+//     user.verificationCode = undefined;
+//     user.verificationCodeExpiry = undefined;
+
+//     await user.save();
+
+//     res.status(200)
+//         .json(new ApiResponse(200, "Email verified successfully"));
+// });
