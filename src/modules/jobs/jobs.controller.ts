@@ -1,0 +1,70 @@
+import { asyncHandler } from "../../shared/utills/asyncHandler.js";
+import { ApiError } from "../../shared/utills/ApiError.js";
+import { ApiResponse } from "../../shared/utills/ApiResponse.js";
+import { matchJobsForUser } from "../matching/matching.services.js";
+import User from "../users/users.model.js";
+import Job from "./jobs.model.js";
+
+const getMatchedJobs = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "Please Sign in to continue");
+    }
+
+    const user = await User.findById(userId);
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const matches = await matchJobsForUser(user._id);
+    if(!matches.length) {
+        return res.status(200).json(
+            new ApiResponse(
+                200, 
+                "There are currently no new openings that match your preferences."
+            )
+        );
+    }
+
+    const payload = matches.map(match => ({
+        title: match.title,
+        company: match.company,
+        location: match.location,
+        stipend: match.stipend,
+        postedAt: match.postedAt,
+        absoluteUrl: match.absoluteUrl
+    }));
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "Matching opportunities retrieved successfully.",
+            payload
+        )
+    );
+});
+
+const getJobs = asyncHandler(async (req, res) => {
+    const jobs = await Job.find();
+    const payload = jobs.map(match => ({
+        title: match.title,
+        company: match.company,
+        location: match.location,
+        stipend: match.stipend,
+        postedAt: match.postedAt,
+        absoluteUrl: match.absoluteUrl
+    }));
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "Opportunities retrieved successfully.",
+            payload
+        )
+    );
+});
+
+export {
+    getMatchedJobs,
+    getJobs
+};
