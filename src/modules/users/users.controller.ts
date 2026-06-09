@@ -3,7 +3,7 @@ import { ApiError } from "../../shared/utills/ApiError.js";
 import { ApiResponse } from "../../shared/utills/ApiResponse.js";
 import { matchJobsForUser } from "../matching/matching.services.js";
 import User from "../users/users.model.js";
-import Job from "./jobs.model.js";
+import Job from "../jobs/jobs.model.js";
 
 const getMatchedJobs = asyncHandler(async (req, res) => {
     const userId = req.user?._id;
