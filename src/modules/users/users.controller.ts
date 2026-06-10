@@ -164,7 +164,7 @@ const getApplications = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Please sign in to continue");
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate("applications");
     if(!user) {
         throw new ApiError(404, "User not found");
     }
