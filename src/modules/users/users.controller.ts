@@ -47,8 +47,13 @@ const getMatchedJobs = asyncHandler(async (req, res) => {
 });
 
 const getJobs = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "Please Sign in to continue");
+    }
+
     const jobs = await Job.find().lean();
-    const payload = jobs.map(match => ({
+    const opportunities = jobs.map(match => ({
         _id: match._id,
         title: match.title,
         logo: match.logo,
@@ -59,17 +64,193 @@ const getJobs = asyncHandler(async (req, res) => {
         absoluteUrl: match.absoluteUrl
     }));
 
-    console.log(payload);
     return res.status(200).json(
         new ApiResponse(
             200,
             "Opportunities retrieved successfully.",
-            payload
+            opportunities
         )
     );
 });
 
+const getSaved = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "Please sign in to continue");
+    }
+
+    const user = await User.findById(userId).populate("saved");
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+    
+    return res.status(200).json(
+        new ApiResponse(
+            200, 
+            "Saved opportunities fetched successfully",
+            user.saved
+        )
+    );
+});
+
+const saveJob = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    const { jobId } = req.params;
+
+    if(!userId) {
+        throw new ApiError(401, "Please sign in to continue");
+    }
+
+    const user = await User.findById(userId);
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+    
+    const job = await Job.findById(jobId);
+    if(!job) {
+        throw new ApiError(404, "Job not found");
+    }
+    await User.findByIdAndUpdate(
+        userId, {
+            $addToSet: {
+                saved: job._id,
+            },
+        }
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200, 
+            "Added to your Saved"
+        )
+    );
+});
+
+const revertSaveJob = asyncHandler(async (req, res) => {
+    const { jobId } = req.params;
+
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "Please sign in to continue");
+    }
+
+    const user = await User.findById(userId);
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const job = await Job.findById(jobId);
+    if(!job) {
+        throw new ApiError(404, "Job not found");
+    }
+    
+    await User.findByIdAndUpdate(
+        userId, {
+            $pull: { saved: jobId },
+        },
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200, 
+            "Removed from your Saved"
+        )
+    );
+});
+
+const getApplications = asyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "Please sign in to continue");
+    }
+
+    const user = await User.findById(userId).populate("applications");
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(
+            200, 
+            "Applications fetched successfully",
+            user.applications
+        )
+    );
+});
+
+const markApplication = asyncHandler(async (req, res) => {
+    const { jobId } = req.params;
+
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "Please sign in to continue");
+    }
+
+    const user = await User.findById(userId);
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const job = await Job.findById(jobId);
+    if(!job) {
+        throw new ApiError(404, "Job not found");
+    }
+
+    await User.findByIdAndUpdate(
+        userId, {
+            $addToSet: {
+                applications: job._id
+            },
+        },
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200, 
+            "Added to your Applications"
+        )
+    );
+});
+
+const revertMarkApplication = asyncHandler(async (req, res) => {
+    const { jobId } = req.params;
+
+    const userId = req.user?._id;
+    if(!userId) {
+        throw new ApiError(401, "PLease sign in to continue");
+    }
+
+    const user = await User.findById(userId);
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const job = await Job.findById(jobId);
+    if(!job) {
+        throw new ApiError(404, "Job not found");
+    }
+
+    await User.findByIdAndUpdate(
+        userId, {
+            $pull: { applications: jobId },
+        },
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "This opportunity removed from applications"
+        )
+    )
+});
+
 export {
     getMatchedJobs,
-    getJobs
+    getJobs,
+    getSaved,
+    saveJob,
+    revertSaveJob,
+    getApplications,
+    markApplication,
+    revertMarkApplication
 };

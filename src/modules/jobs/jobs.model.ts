@@ -56,7 +56,7 @@ jobSchema.index(
 
 jobSchema.index(
     { createdAt: 1}, 
-    { expireAfterSeconds: 60 * 60 * 24 * 3 }
+    // { expireAfterSeconds: 60 * 60 * 24 * 7 }
 );
 
 const Job = model<JobType>("Job", jobSchema);

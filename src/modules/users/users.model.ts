@@ -1,4 +1,4 @@
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, model, Types } from "mongoose";
 import bcrypt from "bcrypt";
 import { SALT_ROUND } from "../../config/env.js";
 import jwt from "jsonwebtoken";
@@ -13,6 +13,8 @@ interface IUser extends Document {
     fullname: string;
     email: string;
     password: string;
+    saved: Types.ObjectId[];
+    applications: Types.ObjectId[];
     verificationCode?: string;
     verificationCodeExpiry?: Date;
     isVerified: boolean;
@@ -39,6 +41,14 @@ const userSchema = new Schema<IUser>({
         required: true,
         minlength: [7, "Password must be at least 7 characters long"],
         maxlength: [21, "Password must be at most 21 characters long"],
+    },
+    saved: {
+        type: [Schema.Types.ObjectId],
+        ref: "Job"
+    },
+    applications: {
+        type: [Schema.Types.ObjectId],
+        ref: "Job"
     },
     verificationCode: {
         type: String,
