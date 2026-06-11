@@ -25,7 +25,9 @@ app.use(rateLimit({
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/health", (req, res) => res.send("Server is healthy"));
+app.get("/health", (req, res) => res.status(200).json({
+    message: "Apologies for the inconvenience. Please return to Carvio and try again."
+}));
 
 app.use("/api/v1", routes);
 
