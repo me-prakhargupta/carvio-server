@@ -148,15 +148,14 @@ const forgotPassword = asyncHandler(async (req, res) => {
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const hashTokenString = crypto.createHash("sha256").update(resetToken).digest("hex").toString();
+    const hashToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
-    user.passwordResetToken = hashTokenString;
+    user.passwordResetToken = hashToken;
     user.passwordResetExpiry = new Date(Date.now() + 10 * 60 * 1000) // 10 Mins
     await user.save({ validateBeforeSave: false });
 
     const resetUrl = `${CLIENT_URI}/accounts/password/confirm/${resetToken}`;
 
-    // implement send email logic
     await sendPasswordResetEmail(user.fullname, user.email, resetUrl);
 
     return res.status(200).json(
@@ -167,7 +166,43 @@ const forgotPassword = asyncHandler(async (req, res) => {
     );
 });
 
-// export const verifyEmail = asyncHandler(async(req, res) => {
+const confirmPassword = asyncHandler(async (req, res) => {
+    const { resetToken } = req.params;
+
+    if (Array.isArray(resetToken)) {
+        throw new ApiError(401, "Invalid reset link");
+    }
+
+    const { password } = req.body;
+    if(!password || password.lenght < 8) {
+        throw new ApiError(400, "Password must be at least 8 characters long");
+    }
+
+    const hashToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+    const user = await User.findOne({
+        passwordResetToken: hashToken,
+        passwordResetExpiry: { $gt: Date.now() },
+    });
+
+    if(!user) {
+        throw new ApiError(404, "Invalid reset link or expired");
+    }
+
+    user.password = password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpiry = undefined;
+    await user.save();
+
+    return res.status(200).json(
+        new ApiResponse(
+            200, 
+            "Password reset successful;"
+        )
+    );
+});
+
+// const verifyEmail = asyncHandler(async(req, res) => {
 //     const { code } = req.body;
 
 //     const userId = req.user?._id;
@@ -204,5 +239,5 @@ const forgotPassword = asyncHandler(async (req, res) => {
 // });
 
 export {
-    signup, signin, forgotPassword
+    signup, signin, forgotPassword, confirmPassword
 }
