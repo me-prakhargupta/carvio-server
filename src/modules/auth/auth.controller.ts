@@ -6,7 +6,10 @@ import { Types } from "mongoose";
 import { CookieOptions } from "express";
 import { NODE_ENV } from "../../config/env.js";
 import { generateCode, hashCode } from "../../shared/utills/code.js";
-import { sendVerificationEmail } from "../../infra/email/email.service.js";
+import { 
+    sendWelcomeEmail,
+    sendVerificationEmail 
+} from "../../infra/email/email.service.js";
 
 type Tokens = {
     accessToken: string;
@@ -80,6 +83,7 @@ export const signup = asyncHandler(async(req, res) => {
         await generateAccessAndRefreshToken(user._id);
 
     // generateVerificationCode(user._id);
+    sendWelcomeEmail(fullname, email);
 
     res.status(201)
         .cookie("accessToken", accessToken, cookieOptions)

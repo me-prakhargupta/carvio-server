@@ -7,7 +7,107 @@ export type TJobs =  {
     absoluteUrl: string;
 }
 
-export const generateVerificationCodeHtml = (
+const generateWelcomeHtml = (fullname: string) => {
+  return `
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Welcome to Carvio</title>
+  </head>
+  <body style="margin:0;padding:0;background:#000000;font-family:Arial,Helvetica,sans-serif;">
+
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#000000;">
+          <tr>
+              <td align="center" style="padding:48px 20px;">
+
+                  <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
+
+                      <!-- Logo -->
+                      <tr>
+                          <td style="padding-bottom:30px;">
+                              <h2 style="margin:0;color:#ffffff;font-size:28px;font-weight:800;letter-spacing:-0.5px;">
+                                  Carvio
+                              </h2>
+                          </td>
+                      </tr>
+
+                      <!-- Welcome Message -->
+                      <tr>
+                          <td style="padding-top:15px;">
+                              <p style="
+                                  margin:0;
+                                  color:#ffffff;
+                                  font-size:16px;
+                                  line-height:1.8;
+                              ">
+                                  Hi ${fullname}, welcome to Carvio.
+                                  <br />
+                              </p>
+                              <p style="
+                                  margin:0;
+                                  color:#a8a29e;
+                                  font-size:16px;
+                                  line-height:1.8;
+                              ">
+                                Your next opportunity might already be live.
+                              </p> 
+                          </td>
+                      </tr>
+
+                      <!-- Subheading -->
+                      <tr>
+                          <td style="padding-top:30px;">
+                              <p style="
+                                  margin:0;
+                                  color:rgba(255,255,255,0.9);
+                                  font-size:24px;
+                                  font-weight:500;
+                              ">
+                                  Stay ahead of the hiring
+                                  <span style="
+                                      color:#fed7aa;
+                                      font-style:italic;
+                                      font-family:Georgia,serif;
+                                  ">
+                                      curve.
+                                  </span>
+                              </p>
+                          </td>
+                      </tr>
+
+                      <!-- Divider -->
+                      <tr>
+                          <td style="padding-top:40px;">
+                              <hr style="
+                                  border:none;
+                                  border-top:1px solid #292524;
+                              " />
+                          </td>
+                      </tr>
+
+                      <!-- Footer -->
+                      <tr>
+                          <td style="padding-top:24px;">
+                              <p style="
+                                  color:#ffffff;
+                                  font-size:14px;
+                              ">
+                                  — Team Carvio
+                              </p>
+                          </td>
+                      </tr>
+                  </table>
+              </td>
+          </tr>
+      </table>
+  </body>
+  </html>
+  `;
+};
+
+const generateVerificationCodeHtml = (
     name: string,
     code: string
 ) => {
@@ -95,7 +195,7 @@ export const generateVerificationCodeHtml = (
 </style>`
 };
 
-export const generateJobsEmailHtml = (matches: TJobs[]) => {
+const generateJobsEmailHtml = (matches: TJobs[]) => {
     return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background:#ffffff; padding:24px;">
     
@@ -170,3 +270,9 @@ export const generateJobsEmailHtml = (matches: TJobs[]) => {
 </div>
     `;
 };
+
+export {
+    generateWelcomeHtml,
+    generateVerificationCodeHtml,
+    generateJobsEmailHtml
+}

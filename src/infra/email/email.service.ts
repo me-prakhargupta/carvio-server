@@ -1,11 +1,24 @@
 import { 
+    generateWelcomeHtml,
     generateVerificationCodeHtml,  
     generateJobsEmailHtml
 } from "./email.template.js";
 import { sendEmail } from "../../shared/utills/email.js";
 import { TJobs } from "./email.template.js";
 
-export const sendVerificationEmail = async(
+const sendWelcomeEmail = async(
+    fullname: string,
+    email: string,
+) => {
+    const html = generateWelcomeHtml(fullname);
+    return await sendEmail(
+        email, 
+        "Welcome to Carvio", 
+        html
+    );
+}
+
+const sendVerificationEmail = async(
     name: string, 
     code: string, 
     email: string
@@ -18,7 +31,7 @@ export const sendVerificationEmail = async(
     );
 };
 
-export const sendPreferenceEmail = async(
+const sendPreferenceEmail = async(
     email: string, 
     matches: TJobs[]
 ) => {    
@@ -28,4 +41,9 @@ export const sendPreferenceEmail = async(
         "Friendly Reminder, Carvio", 
         html
     );
+};
+
+
+export {
+    sendWelcomeEmail, sendVerificationEmail, sendPreferenceEmail
 };
