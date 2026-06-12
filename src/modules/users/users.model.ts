@@ -13,6 +13,8 @@ interface IUser extends Document {
     fullname: string;
     email: string;
     password: string;
+    passwordResetToken?: string | undefined;
+    passwordResetExpiry?: Date | undefined;
     saved: Types.ObjectId[];
     applications: Types.ObjectId[];
     verificationCode?: string;
@@ -41,6 +43,12 @@ const userSchema = new Schema<IUser>({
         required: true,
         minlength: [7, "Password must be at least 7 characters long"],
         maxlength: [21, "Password must be at most 21 characters long"],
+    },
+    passwordResetToken: {
+        type: String,
+    },
+    passwordResetExpiry: {
+        type: Date
     },
     saved: {
         type: [Schema.Types.ObjectId],

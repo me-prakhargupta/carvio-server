@@ -1,7 +1,8 @@
 import { 
     generateWelcomeHtml,
     generateVerificationCodeHtml,  
-    generateJobsEmailHtml
+    generateJobsEmailHtml,
+    generatePasswordResetHtml
 } from "./email.template.js";
 import { sendEmail } from "../../shared/utills/email.js";
 import { TJobs } from "./email.template.js";
@@ -43,7 +44,21 @@ const sendPreferenceEmail = async(
     );
 };
 
+const sendPasswordResetEmail = async (
+    fullname: string, 
+    email: string, 
+    resetUrl: string
+) => {
+    const html = generatePasswordResetHtml(fullname, resetUrl);
+    return await sendEmail(
+        email, 
+        "Get back into your Carvio account",
+        html,
+    );
+};
+
 
 export {
-    sendWelcomeEmail, sendVerificationEmail, sendPreferenceEmail
+    sendWelcomeEmail, sendVerificationEmail, sendPreferenceEmail, 
+    sendPasswordResetEmail
 };

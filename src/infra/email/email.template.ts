@@ -271,8 +271,151 @@ const generateJobsEmailHtml = (matches: TJobs[]) => {
     `;
 };
 
+const generatePasswordResetHtml = (fullname: string, resetUrl: string) => {
+return `<!DOCTYPE html>
+
+  <html>
+  <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Reset Your Carvio Password</title>
+  </head>
+  <body style="margin:0;padding:0;background:#000000;font-family:Arial,Helvetica,sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#000000;">
+      <tr>
+          <td align="center" style="padding:48px 20px;">
+
+              <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
+
+                  <!-- Logo -->
+                  <tr>
+                      <td style="padding-bottom:30px;">
+                          <h2 style="
+                              margin:0;
+                              color:#ffffff;
+                              font-size:28px;
+                              font-weight:800;
+                              letter-spacing:-0.5px;
+                          ">
+                              Carvio
+                          </h2>
+                      </td>
+                  </tr>
+
+                  <!-- Intro -->
+                  <tr>
+                      <td>
+                          <p style="
+                              margin:0;
+                              color:#ffffff;
+                              font-size:16px;
+                              line-height:1.8;
+                          ">
+                              Hi ${fullname},
+                          </p>
+
+                          <p style="
+                              margin:12px 0 0 0;
+                              color:#a8a29e;
+                              font-size:16px;
+                              line-height:1.8;
+                          ">
+                              We've made it easy to get back on Carvio.
+                          </p>
+                      </td>
+                  </tr>
+
+                  <!-- Headline -->
+
+                  <!-- Description -->
+                  <tr>
+                      <td style="padding-top:20px;">
+                          <p style="
+                              margin:0;
+                              color:#78716c;
+                              font-size:15px;
+                              line-height:1.8;
+                          ">
+                              Click the button below to securely reset your password.
+                              This link will expire in 10 minutes for your protection.
+                          </p>
+                      </td>
+                  </tr>
+
+                  <!-- CTA -->
+                  <tr>
+                      <td style="padding-top:36px;">
+                          <a
+                              href="${resetUrl}"
+                              style="
+                                  display:inline-block;
+                                  background:#ffffff;
+                                  color:#000000;
+                                  text-decoration:none;
+                                  padding:14px 32px;
+                                  border-radius:9999px;
+                                  font-size:15px;
+                                  font-weight:700;
+                              "
+                          >
+                              Reset Password
+                          </a>
+                      </td>
+                  </tr>
+
+                  <!-- Fallback -->
+                  <tr>
+                      <td style="padding-top:30px;">
+                          <p style="
+                              margin:0;
+                              color:#57534e;
+                              font-size:13px;
+                              line-height:1.8;
+                          ">
+                              If you didn't request a password reset, you can safely
+                              ignore this email. Your account will remain secure.
+                          </p>
+                      </td>
+                  </tr>
+
+                  <!-- Divider -->
+                  <tr>
+                      <td style="padding-top:40px;">
+                          <hr style="
+                              border:none;
+                              border-top:1px solid #292524;
+                          " />
+                      </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                      <td style="padding-top:24px;">
+                          <p style="
+                              margin:0;
+                              color:#ffffff;
+                              font-size:14px;
+                          ">
+                              — Team Carvio
+                          </p>
+                      </td>
+                  </tr>
+
+              </table>
+
+          </td>
+      </tr>
+  </table>
+  </body>
+  </html>
+  `;
+};
+
+
 export {
     generateWelcomeHtml,
     generateVerificationCodeHtml,
-    generateJobsEmailHtml
-}
+    generateJobsEmailHtml,
+    generatePasswordResetHtml
+};

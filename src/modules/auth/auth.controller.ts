@@ -8,8 +8,11 @@ import { NODE_ENV } from "../../config/env.js";
 import { generateCode, hashCode } from "../../shared/utills/code.js";
 import { 
     sendWelcomeEmail,
-    sendVerificationEmail 
+    sendVerificationEmail,
+    sendPasswordResetEmail
 } from "../../infra/email/email.service.js";
+import crypto from "node:crypto";
+import { CLIENT_URI } from "../../config/env.js";
 
 type Tokens = {
     accessToken: string;
@@ -66,7 +69,7 @@ const generateAccessAndRefreshToken =
 //     }
 // };
 
-export const signup = asyncHandler(async(req, res) => {
+const signup = asyncHandler(async(req, res) => {
     const { fullname, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -93,7 +96,7 @@ export const signup = asyncHandler(async(req, res) => {
         );
 });
 
-export const signin = asyncHandler(async (req, res) => {
+const signin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -136,6 +139,34 @@ export const signin = asyncHandler(async (req, res) => {
 //         .json(new ApiResponse(200, "User logout successfully"));
 // });
 
+const forgotPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const hashTokenString = crypto.createHash("sha256").update(resetToken).digest("hex").toString();
+
+    user.passwordResetToken = hashTokenString;
+    user.passwordResetExpiry = new Date(Date.now() + 10 * 60 * 1000) // 10 Mins
+    await user.save({ validateBeforeSave: false });
+
+    const resetUrl = `${CLIENT_URI}/accounts/password/confirm/${resetToken}`;
+
+    // implement send email logic
+    await sendPasswordResetEmail(user.fullname, user.email, resetUrl);
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            "We sent an email with a link to get back into your account."
+        )
+    );
+});
+
 // export const verifyEmail = asyncHandler(async(req, res) => {
 //     const { code } = req.body;
 
@@ -171,3 +202,7 @@ export const signin = asyncHandler(async (req, res) => {
 //     res.status(200)
 //         .json(new ApiResponse(200, "Email verified successfully"));
 // });
+
+export {
+    signup, signin, forgotPassword
+}
