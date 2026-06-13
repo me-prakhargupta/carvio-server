@@ -42,7 +42,7 @@ const generateWelcomeHtml = (fullname: string) => {
                                   font-size:16px;
                                   line-height:1.8;
                               ">
-                                  Hi ${fullname}, welcome to Carvio.
+                                  Hi ${fullname}! Welcome to Carvio.
                                   <br />
                               </p>
                               <p style="
@@ -62,10 +62,10 @@ const generateWelcomeHtml = (fullname: string) => {
                               <p style="
                                   margin:0;
                                   color:rgba(255,255,255,0.9);
-                                  font-size:24px;
+                                  font-size:17px;
                                   font-weight:500;
                               ">
-                                  Stay ahead of the hiring
+                                  Discover faster. Stay ahead of the hiring
                                   <span style="
                                       color:#fed7aa;
                                       font-style:italic;

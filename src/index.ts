@@ -2,6 +2,7 @@ import app from "./app.js";
 import { connectDB } from "./infra/database/connection.js";
 import { PORT } from "./config/env.js";
 import { initScheduler } from "./infra/cron/index.js";
+import "./infra/queue/worker.js";
 
 const startServer = async() => {
     try {

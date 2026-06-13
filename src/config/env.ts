@@ -13,7 +13,6 @@ const requireEnv = (key: string): string => {
 
 const rawPort = requireEnv("PORT");
 const portNumber = Number(rawPort);
-
 if(Number.isNaN(portNumber)) {
     throw new Error("PORT number must be a valid number");
 }
@@ -24,13 +23,21 @@ const MONGO_URI: string = requireEnv("MONGO_URI");
 
 const rawSaltRound = requireEnv("SALT_ROUND");
 const saltRound = Number(rawSaltRound);
-
 if(Number.isNaN(saltRound)) {
     throw new Error("SALT ROUND must be a valid number");
 }
 
 const SALT_ROUND: number = saltRound;
 
+const REDIS_HOST: string = requireEnv("REDIS_HOST");
+
+const rawRedisPort = requireEnv("REDIS_PORT");
+const redisPort = Number(rawRedisPort);
+if(Number.isNaN(redisPort)) {
+    throw new Error("REDIS PORT must be a valid number");
+}
+
+const REDIS_PORT: number = redisPort;
 
 const ACCESS_TOKEN_SECRET = 
     requireEnv("ACCESS_TOKEN_SECRET");
@@ -57,14 +64,16 @@ export {
     PORT,
     MONGO_URI,
     SALT_ROUND,
-    ACCESS_TOKEN_SECRET,
+    REDIS_HOST, 
+    REDIS_PORT,
+    ACCESS_TOKEN_SECRET, 
     ACCESS_TOKEN_EXPIRY,
-    REFRESH_TOKEN_SECRET,
+    REFRESH_TOKEN_SECRET, 
     REFRESH_TOKEN_EXPIRY,
     NODE_ENV,
     CLIENT_URI,
     RESEND_API_KEY,
     BREVO_API_KEY,
-    SYSTEM_USER_EMAIL,
+    SYSTEM_USER_EMAIL, 
     SYSTEM_USER_PASS,
 };

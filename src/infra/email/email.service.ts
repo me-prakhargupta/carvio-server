@@ -6,17 +6,22 @@ import {
 } from "./email.template.js";
 import { sendEmail } from "../../shared/utills/email.js";
 import { TJobs } from "./email.template.js";
+import { welcomeEmailQueue } from "../queue/producer.js";
 
-const sendWelcomeEmail = async(
-    fullname: string,
-    email: string,
-) => {
+const sendWelcomeEmail = async(fullname: string, email: string) => {
     const html = generateWelcomeHtml(fullname);
-    return await sendEmail(
+
+    await welcomeEmailQueue.add(`welcomeEmailFor${fullname}`, {
         email, 
-        "Welcome to Carvio", 
+        subject: "Welcome to Carvio", 
         html
-    );
+    });
+
+    // return await sendEmail(
+    //     email, 
+    //     "Welcome to Carvio", 
+    //     html
+    // );
 }
 
 const sendVerificationEmail = async(
