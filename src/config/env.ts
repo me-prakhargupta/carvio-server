@@ -29,15 +29,7 @@ if(Number.isNaN(saltRound)) {
 
 const SALT_ROUND: number = saltRound;
 
-const REDIS_HOST: string = requireEnv("REDIS_HOST");
-
-const rawRedisPort = requireEnv("REDIS_PORT");
-const redisPort = Number(rawRedisPort);
-if(Number.isNaN(redisPort)) {
-    throw new Error("REDIS PORT must be a valid number");
-}
-
-const REDIS_PORT: number = redisPort;
+const REDIS_URI: string = requireEnv("REDIS_URI");
 
 const ACCESS_TOKEN_SECRET = 
     requireEnv("ACCESS_TOKEN_SECRET");
@@ -64,8 +56,7 @@ export {
     PORT,
     MONGO_URI,
     SALT_ROUND,
-    REDIS_HOST, 
-    REDIS_PORT,
+    REDIS_URI,
     ACCESS_TOKEN_SECRET, 
     ACCESS_TOKEN_EXPIRY,
     REFRESH_TOKEN_SECRET, 
