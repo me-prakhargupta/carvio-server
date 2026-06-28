@@ -1,5 +1,6 @@
 import { Redis } from "ioredis";
 import { REDIS_URI } from "./env.js";
+import logger from "./logger.js";
 
 export const redisConfig = new Redis(
     REDIS_URI, 
@@ -11,17 +12,17 @@ export const redisConfig = new Redis(
 );
 
 redisConfig.on("connect", () => {
-    console.log("[REDIS] Connect");
+    logger.info("[REDIS] Connect");
 });
 
 redisConfig.on("ready", () => {
-    console.log("[REDIS] Ready");
+    logger.info("[REDIS] Ready");
 });
 
 redisConfig.on("reconnecting", () => {
-    console.log("[REDIS] Reconnecting");
+    logger.info("[REDIS] Reconnecting");
 });
 
 redisConfig.on("error", (error) => {
-    console.log("[REDIS] Error", error);
+    logger.error(`[REDIS] Error ${error}`);
 });

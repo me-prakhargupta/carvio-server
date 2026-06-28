@@ -43,6 +43,8 @@ const REFRESH_TOKEN_EXPIRY =
 
 const NODE_ENV: string = requireEnv("NODE_ENV");
 
+const LOG_LEVEL: string = requireEnv("LOG_LEVEL");
+
 const CLIENT_URI: string = requireEnv("CLIENT_URI");
 
 const RESEND_API_KEY: string = requireEnv("RESEND_API_KEY");
@@ -62,6 +64,7 @@ export {
     REFRESH_TOKEN_SECRET, 
     REFRESH_TOKEN_EXPIRY,
     NODE_ENV,
+    LOG_LEVEL,
     CLIENT_URI,
     RESEND_API_KEY,
     BREVO_API_KEY,

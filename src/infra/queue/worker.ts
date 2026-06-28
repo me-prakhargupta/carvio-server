@@ -1,6 +1,7 @@
 import { Worker } from "bullmq";
 import { sendEmail } from "../../shared/utills/email.js";
 import { redisConfig } from "../../config/redis.js";
+import logger from "../../config/logger.js";
 
 const worker = new Worker("welcomeEmailQueue", async job => {
     await sendEmail(
@@ -11,17 +12,17 @@ const worker = new Worker("welcomeEmailQueue", async job => {
 }, { connection: redisConfig });
 
 worker.on("ready", () => {
-    console.log("[WORKER] Ready");
+    logger.info("[WORKER] Ready");
 });
 
 worker.on("completed", (job) => {
-    console.log(`[WORKER] Completed ${job.id}`);
+    logger.info(`[WORKER] Completed ${job.id}`);
 });
 
 worker.on("failed", (job, error) => {
-    console.log(`[WORKER] Failed ${job?.id}`, error);
+    logger.error(`[WORKER] Failed ${job?.id} ${error}`);
 });
 
 worker.on("error", (error) => {
-    console.log("[WORKER] Error", error);
+    logger.error(`[WORKER] Error ${error}`);
 });
