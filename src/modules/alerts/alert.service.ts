@@ -3,6 +3,7 @@ import Notification from "../notifications/notification.model.js";
 import { matchJobsForUser } from "../matching/matching.services.js";
 import { sendPreferenceEmail } from "../../infra/email/email.service.js";
 import { TJobs } from "../../infra/email/email.template.js";
+import logger from "../../config/logger.js";
 
 export const runMatchingPipeline = async() => {
     try {
@@ -44,8 +45,8 @@ export const runMatchingPipeline = async() => {
             }
         }
 
-        console.log(`[EMAIL] Sent ${emailSentCount} emails`);
+        logger.info(`[EMAIL] Sent ${emailSentCount} emails`);
     } catch(error) {
-        console.error("[PIPELINE] Matching Failed:", error);
+        logger.error(`[PIPELINE] Matching Failed: ${error}`);
     }
 };

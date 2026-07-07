@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import Preference from "../preferences/preferences.model.js";
 import Job from "../jobs/jobs.model.js";
+import logger from "../../config/logger.js";
 
 export type TMatch = {
   jobId: Types.ObjectId;
@@ -70,7 +71,7 @@ export const matchJobsForUser = async(
         }));
 
     } catch (error) {
-        console.error("Matching error:", error);
+        logger.error(`Matching error: ${error}`);
         throw error;
     }
 };
