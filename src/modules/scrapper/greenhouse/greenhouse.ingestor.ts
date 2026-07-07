@@ -10,6 +10,7 @@ import {
 } from "../../jobs/jobs.filters.js";
 import { transformGreenhouseJobs } from "./greenhouse.transformer.js";
 import { createJob } from "../../jobs/jobs.repository.js";
+import logger from "../../../config/logger.js";
 
 export const ingestGreenhouseJobs = async() => {
     let companyCount = 0;
@@ -30,12 +31,12 @@ export const ingestGreenhouseJobs = async() => {
                     postedAt: daysAgo
                 });
             } catch(error) {
-                console.error(
+                logger.error(
                     `[SCRAPER: GREENHOUSE] Job failed for ${company}`
                 );
             }        
         }
         companyCount++;
     }
-    console.log(`[SCRAPER: GREENHOUSE] Runned for ${companyCount} companies`);
+    logger.info(`[SCRAPER: GREENHOUSE] Runned for ${companyCount} companies`);
 };

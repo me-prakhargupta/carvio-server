@@ -1,4 +1,5 @@
 import axios from "axios";
+import logger from "../../../config/logger.js";
 
 export const fetchGreenhouseJobs = async(company: string) => {
     try {
@@ -8,7 +9,7 @@ export const fetchGreenhouseJobs = async(company: string) => {
         
         return res.data.jobs;
     } catch(error) {
-        console.log(
+        logger.error(
             `[SCRAPER: FETCH GREENHOUSE] Failed to fetch jobs for ${company}`
         );
         return [];

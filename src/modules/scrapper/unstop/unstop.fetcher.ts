@@ -1,4 +1,5 @@
 import axios from "axios";
+import logger from "../../../config/logger.js";
 
 export const fetchUnstopJobs = async(role: string) => {
     try {
@@ -8,7 +9,7 @@ export const fetchUnstopJobs = async(role: string) => {
 
         return res.data.data.data;
     } catch(error) {
-        console.log(
+        logger.error(
             `[SCRAPER: FETCH UNSTOP] Failed to fetch jobs for `
         );
 

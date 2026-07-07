@@ -7,6 +7,7 @@ import {
 import { 
     ingestUnstopJobs 
 } from "./unstop/unstop.ingestor.js";
+import logger from "../../config/logger.js";
 
 export const runScrapper = async() => {
     try {
@@ -14,7 +15,7 @@ export const runScrapper = async() => {
         await ingestInternshalaJobs();
         await ingestUnstopJobs();
     } catch(error) {
-        console.log(
+        logger.error(
             `[SCRAPPER SERVICE] Service Failed ${error}`
         );
     }

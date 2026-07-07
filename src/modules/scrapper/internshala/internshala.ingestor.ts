@@ -2,6 +2,7 @@ import { domains } from "../../sources/internshala/internshala.sources.js";
 import { fetchInternshalaJobs } from "./internshala.fetcher.js";
 import { createJob } from "../../jobs/jobs.repository.js";
 import { jobSchema } from "../../jobs/jobs.validation.js";
+import logger from "../../../config/logger.js";
 
 const parseDays = (value: string): boolean => {
     if(!value) return false;
@@ -54,5 +55,5 @@ export const ingestInternshalaJobs = async() => {
         }
         count++;
     }
-    console.log(`[SCRAPER: INTERNSHALA] Runned for ${count} domains`);
+    logger.info(`[SCRAPER: INTERNSHALA] Runned for ${count} domains`);
 };

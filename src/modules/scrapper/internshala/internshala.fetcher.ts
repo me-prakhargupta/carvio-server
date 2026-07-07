@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { JobType } from "../../jobs/jobs.validation.js";
+import logger from "../../../config/logger.js";
 
 export const fetchInternshalaJobs = async(domain: string) => {
     try {
@@ -53,7 +54,7 @@ export const fetchInternshalaJobs = async(domain: string) => {
 
         return jobs;
     } catch(error) {
-        console.log(
+        logger.error(
             "[SCRAPER: FETCH INTERNSHALA] Failed to fetch jobs"
         );
         return [];
