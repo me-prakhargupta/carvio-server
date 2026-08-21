@@ -21,7 +21,6 @@ export const greenhouseSources = [
     "Altium",
     "SingleStore",
     "CockroachLabs",
-    "IBKR",
     "E2OpenLLC",
     "CouchbaseInc",
     "LivePerson",
