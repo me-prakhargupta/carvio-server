@@ -13,5 +13,5 @@ export const transformGreenhouseJobs = (
     source: "Greenhouse",
     externalId: job.id,
     absoluteUrl: job.absolute_url,
-    postedAt: job.updated_at,
+    postedAt: job.first_published,
 });
