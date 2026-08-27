@@ -14,12 +14,12 @@ export const ingestLeverJobs = async() => {
                 
             } catch(error) {
                 logger.error(
-                    `[INGESTOR: LEVER] Job failed for ${company}`
+                    `[SCRAPER: LEVER] Job failed for ${company}`
                 );
             }
         }
         companyCount++;
     }
 
-    logger.info(`[INGESTOR: LEVER Runned for ${companyCount} companies.`);
+    logger.info(`[SCRAPER: LEVER Runned for ${companyCount} companies.`);
 };
