@@ -10,7 +10,7 @@ export const fetchLeverJobs = async(company: string) => {
         return res.data;
     } catch(error) {
         logger.error(
-            `[SCRAPPER: FETCH LEVER] Failed to fetch jobs for ${company}`
+            `[SCRAPER: FETCH LEVER] Failed to fetch jobs for ${company}`
         );
 
         return [];

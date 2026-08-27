@@ -5,7 +5,7 @@ import { ingestLeverJobs } from "./lever/lever.ingestor.js";
 import { ingestAshbyJobs } from "./ashby/ashby.ingestor.js";
 import logger from "../../config/logger.js";
 
-export const runScrapper = async() => {
+export const runScraper = async() => {
     try {
         await ingestGreenhouseJobs();
         await ingestInternshalaJobs();
@@ -14,7 +14,7 @@ export const runScrapper = async() => {
         // await ingestAshbyJobs();
     } catch(error) {
         logger.error(
-            `[SCRAPPER SERVICE] Service Failed ${error}`
+            `[SCRAPER SERVICE] Service Failed ${error}`
         );
     }
 };

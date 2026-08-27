@@ -1,6 +1,6 @@
 import cron from "node-cron";
 import logger from "../../config/logger.js";
-import { runScrapper } from "../../modules/scrapper/scrapper.service.js";
+import { runScraper } from "../../modules/scraper/scraper.service.js";
 import { runMatchingPipeline } from "../../modules/alerts/alert.service.js";
 
 let isRunning = false;
@@ -19,7 +19,7 @@ export const startCronJobs = async () => {
             isRunning = true;
             logger.info("[SCHEDULER] Job started");
 
-            await runScrapper();
+            await runScraper();
             await runMatchingPipeline();
 
             logger.info(`[SCHEDULER] Completed in ${Date.now() - start}ms`);
