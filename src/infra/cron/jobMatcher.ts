@@ -20,7 +20,7 @@ export const startCronJobs = async () => {
             logger.info("[SCHEDULER] Job started");
 
             await runScraper();
-            await runMatchingPipeline();
+            // await runMatchingPipeline();
 
             logger.info(`[SCHEDULER] Completed in ${Date.now() - start}ms`);
         } catch(error) {
