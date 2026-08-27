@@ -10,5 +10,4 @@ export const leverSources = [
     "Paytm",
     "Veepee",
     "15five",
-    ""
 ];
