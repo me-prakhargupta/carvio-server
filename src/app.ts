@@ -25,15 +25,13 @@ app.use(rateLimit({
 
 app.use((req, res, next) => {
     const start = process.hrtime.bigint();
-
     res.on("finish", () => {
         const end = process.hrtime.bigint();
         const ms = Number(end - start) / 1_000_000;
         logger.info(`${req.method} ${req.originalUrl} - ${ms.toFixed(2)}ms`);
     });
-
     next();
-})
+});
 
 app.use(express.json());
 app.use(cookieParser());
