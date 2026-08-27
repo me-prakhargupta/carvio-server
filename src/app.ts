@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors, {CorsOptions} from "cors";
 import { CLIENT_URI } from "./config/env.js";
 import rateLimit from "express-rate-limit";
+import logger from "./config/logger.js";
 
 const app = express();
 
@@ -21,6 +22,18 @@ app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100
 }));
+
+app.use((req, res, next) => {
+    const start = process.hrtime.bigint();
+
+    res.on("finish", () => {
+        const end = process.hrtime.bigint();
+        const ms = Number(end - start) / 1_000_000;
+        logger.info(`${req.method} ${req.originalUrl} - ${ms.toFixed(2)}ms`);
+    });
+
+    next();
+})
 
 app.use(express.json());
 app.use(cookieParser());
