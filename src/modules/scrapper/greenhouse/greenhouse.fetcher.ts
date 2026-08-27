@@ -12,6 +12,7 @@ export const fetchGreenhouseJobs = async(company: string) => {
         logger.error(
             `[SCRAPER: FETCH GREENHOUSE] Failed to fetch jobs for ${company}`
         );
+        
         return [];
     }
 };
