@@ -53,6 +53,8 @@ const BREVO_API_KEY: string = requireEnv("BREVO_API_KEY");
 const SYSTEM_USER_EMAIL: string = requireEnv("SYSTEM_USER_EMAIL");
 const SYSTEM_USER_PASS: string = requireEnv("SYSTEM_USER_PASS");
 
+const TRIGGER_SCRAPER_KEY: string = requireEnv("TRIGGER_SCRAPER_KEY");
+
 
 export {
     PORT,
@@ -70,4 +72,5 @@ export {
     BREVO_API_KEY,
     SYSTEM_USER_EMAIL, 
     SYSTEM_USER_PASS,
+    TRIGGER_SCRAPER_KEY,
 };
