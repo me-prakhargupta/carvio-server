@@ -35,11 +35,10 @@ const triggerScraper = asyncHandler(async(req, res) => {
         throw new ApiError(401, "Unauthorized");
     }
 
-    const scraperRes = runScraper();
-
+    runScraper();
     res.status(202).json(
-        new ApiResponse(202, "Scraper triggerd and started in background", scraperRes)
-    )
+        new ApiResponse(202, "Scraper triggered and started in background")
+    );
 });
 
 export { runScraper, triggerScraper };

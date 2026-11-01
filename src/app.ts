@@ -23,6 +23,7 @@ app.use(rateLimit({
     max: 100
 }));
 
+// Request logging middleware
 app.use((req, res, next) => {
     const start = process.hrtime.bigint();
     res.on("finish", () => {
