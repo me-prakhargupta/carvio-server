@@ -8,7 +8,7 @@ let isRunning = false;
 export const startCronJobs = async () => {
     logger.info("[SCHEDULER] Initialized.");
 
-    cron.schedule("0 0 6,9,12,15,18,21 * * *", async() => {
+    cron.schedule("0 0 3,6,9,12,15,18,21 * * *", async() => {
         if(isRunning) {
             logger.warn("[SCHEDULER] Skipping overlapping run.");
             return;
