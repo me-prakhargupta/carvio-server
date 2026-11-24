@@ -97,7 +97,7 @@ const main = () => {
             try {
                 await transporter.sendMail({
                 from: `Carvio <${SYSTEM_USER_EMAIL}>`,
-                to: "prajal8924@gmail.com",
+                to: "tempuseremail@gmail.com",
                 subject,
                 html,
                 attachments: [{ path: attachmentPath }]
